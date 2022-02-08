@@ -8,13 +8,15 @@ const cors = require("cors");
 
 const mongoose = require("mongoose");
 
-const path = require("path");
+// const path = require("path");
 
 const app = express();
 
 app.use(bodyParser.json());
 
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // connect to mongoose
 
@@ -26,7 +28,7 @@ mongoose.connect("mongodb://localhost:27017/moviesDB", {
 const movieSchema = new mongoose.Schema({
     titles: String,
     genres: String,
-    years: String
+    years: String,
 });
 
 const Movie = mongoose.model("Movie", movieSchema);
@@ -43,11 +45,29 @@ app.post("/newmovie", function (req, res) {
     const newMovie = new Movie({
         titles: req.body.titless,
         genres: req.body.genress,
-        years: req.body.yearss
+        years: req.body.yearss,
     });
 
     newMovie.save();
 
+});
+
+//updating movies from database
+app.put("/update/:updateid", function (req, res) {
+
+    const updateMovies = {
+        titles: req.body.title,
+        genres: req.body.genre,
+        years: req.body.year,
+    };
+
+    Movie.findByIdAndUpdate({ _id: req.params.updateid }, { $set: updateMovies }, (err) => {
+        if (!err) {
+            console.log("movie updated");
+        } else {
+            console.log(err);
+        }
+    });
 });
 
 //deleting movies from database

@@ -1,13 +1,13 @@
 {
-  "name": "Notes App",
+  "name": "my-mern-app",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "server.js",
   "engines": {
     "node": "14.17.1"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "node server.js --ignore client",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
